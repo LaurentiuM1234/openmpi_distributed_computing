@@ -1,0 +1,51 @@
+======================== DETALII IMPLEMENTARE =============================
+(*) WORKFLOW
+	(**) COORDINATOR : 1) Calculeaza arborele de acoperire
+			   2) Calculeaza topologia sistemului
+			   3) Imparte array-ul de procesat intre
+                              coordonatori folosind arborele de acoperire
+                           4) Imparte array-ul de procesat intre workerii
+                              subordonati coordonatorului
+                           5) Primeste rezultate de la workeri
+                           6) Asambleaza array-ul de procesat
+                           7) Printeaza rezultatul (nodul 0)
+
+	(**) WORKER : 1) Primeste topologia de la coordonator
+		      2) Afiseaza topologia
+		      3) Primeste de la coordonator bucata de array
+                         ce trebuie procesata
+                      4) Trimite la coordonator bucata de array procesata
+
+(*) DIVERSE DETALII
+- liderul topologiei este nodul 0 deoarece acesta va fi si cel care va
+genera array-ul de procesat
+
+- pentru a putea imparti arrayul de procesat intre coordonatori este
+folosita o matrice (work_matrix). Aceasta contine nr. linii = nr. noduri
+coordonator. Pe fiecare linie se va gasi bucata din array ce trebuie
+procesata de catre workerii unui coordonator (pentru uniformitate, fiecare
+linie are dimensiunea egala cu dimensiunea arrayului + 2 (deoarece se
+folosesc 2 celule pentru a retine unde incepe si unde se termina bucata
+de procesat pentru coordonatorul respectiv) desi bucata de procesat este
+mai mica decat dimensiunea arrayului. Inainte de a trimite cate o bucata
+din array fiecarui worker, coordonatorul va pune 0 pe toate liniile din
+work_matrix exceptand-o pe cea care corespunde rangului sau pentru a putea
+usura procesul prin care se colecteaza rezultatele (procesul de colectare
+va presupune doar insumarea matricilor work_matrix de la fiecare
+coordonator)
+
+- am folosit un algoritm pentru a determina arborele de acoperire 
+pentru topologie pentru a oferi un caracter mai general al implementarii
+(fata de ceva hardcodat pentru fiecare din cele 2 cazuri posibile)
+
+- pentru a obtine arrayul final, procesul 0 face suma tuturor liniilor
+din work_matrix (fara elementele 0 si 1 din fiecare linie pentru ca
+acestea reprezinta niste indici) (acest lucru functioneaza deoarece
+matricea finala are 0 pe toate pozitiile in afara de cele ce contin
+numere din array assignate coordonatorilor)
+===========================================================================
+
+================================ DISCLAMER ================================
+(*) algoritmii folositi pentru determinarea arborelui de acoperire si a
+topologiei sunt cei din laboratorul 10
+===========================================================================
